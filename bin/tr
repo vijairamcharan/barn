@@ -21,23 +21,52 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 // src/index.ts
 var import_fs = __toESM(require("fs"));
 var import_path = __toESM(require("path"));
+var import_child_process = require("child_process");
+var projectFileExists = (filename) => import_fs.default.existsSync(import_path.default.join(process.cwd(), filename));
 var detectProjectEnvironment = () => {
-  const hasYarn = import_fs.default.existsSync(import_path.default.join(process.cwd(), "yarn.lock"));
-  const hasNpm = import_fs.default.existsSync(import_path.default.join(process.cwd(), "package-lock.json"));
-  const hasPnpm = import_fs.default.existsSync(import_path.default.join(process.cwd(), "pnpm-lock.yaml"));
-  const hasDeno = import_fs.default.existsSync(import_path.default.join(process.cwd(), "deps.ts"));
-  if (hasYarn) {
+  const isYarn = projectFileExists("yarn.lock");
+  if (isYarn) {
     return "yarn" /* yarn */;
   }
-  if (hasNpm) {
+  const isNpm = projectFileExists("package-lock.json");
+  if (isNpm) {
     return "npm" /* npm */;
   }
-  if (hasPnpm) {
+  const isPnpm = projectFileExists("pnpm-lock.yaml");
+  if (isPnpm) {
     return "pnpm" /* pnpm */;
   }
-  if (hasDeno) {
+  const isDeno = projectFileExists("deps.ts");
+  if (isDeno) {
     return "deno" /* deno */;
   }
   return null;
 };
-console.log("project environment", detectProjectEnvironment());
+var getPackageJsonScripts = () => {
+  try {
+    const packageJsonPath = import_path.default.join(process.cwd(), "package.json");
+    const packageJson = import_fs.default.readFileSync(packageJsonPath, "utf8");
+    const packageJsonScripts = JSON.parse(packageJson).scripts;
+    return packageJsonScripts;
+  } catch (e) {
+    return null;
+  }
+};
+var program = () => {
+  const args = process.argv.slice(2);
+  const processName = args[0] === "create" ? "pnpm" : detectProjectEnvironment();
+  if (!processName) {
+    console.warn("No task runner detected");
+    return;
+  }
+  const packageJsonScripts = getPackageJsonScripts();
+  const script = packageJsonScripts?.[args[0]];
+  const childArgs = script ? ["run", ...args] : args;
+  const childProcess = (0, import_child_process.spawn)(processName, childArgs, {
+    stdio: [process.stdin, process.stdout, process.stderr]
+  });
+  childProcess.on("exit", function() {
+    process.exit();
+  });
+};
+program();

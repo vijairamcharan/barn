@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { spawn } from 'child_process';
 
 type Maybe<T> = T | null;
 
@@ -39,4 +40,39 @@ const detectProjectEnvironment = (): Maybe<TaskRunnerEnvironment> => {
   return null;
 };
 
-console.log('project environment', detectProjectEnvironment());
+const getPackageJsonScripts = (): Maybe<Record<string, string>> => {
+  try {
+    const packageJsonPath = path.join(process.cwd(), 'package.json');
+    const packageJson = fs.readFileSync(packageJsonPath, 'utf8');
+    const packageJsonScripts = JSON.parse(packageJson).scripts;
+    return packageJsonScripts;
+  } catch (e) {
+    return null;
+  }
+};
+
+const program = () => {
+  const args = process.argv.slice(2);
+
+  const processName =
+    args[0] === 'create' ? 'pnpm' : detectProjectEnvironment();
+  if (!processName) {
+    console.warn('No task runner detected');
+    return;
+  }
+
+  const packageJsonScripts = getPackageJsonScripts();
+  const script = packageJsonScripts?.[args[0]];
+
+  const childArgs = script ? ['run', ...args] : args;
+
+  const childProcess = spawn(processName, childArgs, {
+    stdio: [process.stdin, process.stdout, process.stderr],
+  });
+
+  childProcess.on('exit', function () {
+    process.exit();
+  });
+};
+
+program();
