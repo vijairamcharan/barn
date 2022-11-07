@@ -12,25 +12,27 @@ enum TaskRunnerEnvironment {
   deno = 'deno',
 }
 
-const detectProjectEnvironment = (): Maybe<TaskRunnerEnvironment> => {
-  const hasYarn = fs.existsSync(path.join(process.cwd(), 'yarn.lock'));
-  const hasNpm = fs.existsSync(path.join(process.cwd(), 'package-lock.json'));
-  const hasPnpm = fs.existsSync(path.join(process.cwd(), 'pnpm-lock.yaml'));
-  const hasDeno = fs.existsSync(path.join(process.cwd(), 'deps.ts'));
+const projectFileExists = (filename: string): boolean =>
+  fs.existsSync(path.join(process.cwd(), filename));
 
-  if (hasYarn) {
+const detectProjectEnvironment = (): Maybe<TaskRunnerEnvironment> => {
+  const isYarn = projectFileExists('yarn.lock');
+  if (isYarn) {
     return TaskRunnerEnvironment.yarn;
   }
 
-  if (hasNpm) {
+  const isNpm = projectFileExists('package-lock.json');
+  if (isNpm) {
     return TaskRunnerEnvironment.npm;
   }
 
-  if (hasPnpm) {
+  const isPnpm = projectFileExists('pnpm-lock.yaml');
+  if (isPnpm) {
     return TaskRunnerEnvironment.pnpm;
   }
 
-  if (hasDeno) {
+  const isDeno = projectFileExists('deps.ts');
+  if (isDeno) {
     return TaskRunnerEnvironment.deno;
   }
 
