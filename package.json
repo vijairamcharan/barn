@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npx tsx src/index.ts",
-    "build": "npx esbuild src/index.ts --outfile=bin/tr --bundle --platform=node",
-    "publish:local": "cp bin/tr /usr/local/bin/nr",
-    "pl": "yarn build yarn publish:local"
+    "build": "npx esbuild src/index.ts --outfile=bin/pm --bundle --platform=node",
+    "publish:local": "cp bin/pm /usr/local/bin/pm"
   },
   "keywords": [],
   "author": "Vijai Ramcharan",
