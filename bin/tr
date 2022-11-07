@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+
+// src/index.ts
+var import_fs = __toESM(require("fs"));
+var import_path = __toESM(require("path"));
+var detectProjectEnvironment = () => {
+  const hasYarn = import_fs.default.existsSync(import_path.default.join(process.cwd(), "yarn.lock"));
+  const hasNpm = import_fs.default.existsSync(import_path.default.join(process.cwd(), "package-lock.json"));
+  const hasPnpm = import_fs.default.existsSync(import_path.default.join(process.cwd(), "pnpm-lock.yaml"));
+  const hasDeno = import_fs.default.existsSync(import_path.default.join(process.cwd(), "deps.ts"));
+  if (hasYarn) {
+    return "yarn" /* yarn */;
+  }
+  if (hasNpm) {
+    return "npm" /* npm */;
+  }
+  if (hasPnpm) {
+    return "pnpm" /* pnpm */;
+  }
+  if (hasDeno) {
+    return "deno" /* deno */;
+  }
+  return null;
+};
+console.log("project environment", detectProjectEnvironment());

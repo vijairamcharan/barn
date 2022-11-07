@@ -1,0 +1,13 @@
+{
+  "name": "pm-task-runner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx tsx src/index.ts",
+    "build": "npx esbuild src/index.ts --outfile=bin/tr --bundle --platform=node"
+  },
+  "keywords": [],
+  "author": "Vijai Ramcharan",
+  "license": "ISC"
+}
