@@ -1,0 +1,72 @@
+#!/usr/bin/env node
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+
+// src/index.ts
+var import_fs = __toESM(require("fs"));
+var import_path = __toESM(require("path"));
+var import_child_process = require("child_process");
+var projectFileExists = (filename) => import_fs.default.existsSync(import_path.default.join(process.cwd(), filename));
+var detectProjectEnvironment = () => {
+  const isYarn = projectFileExists("yarn.lock");
+  if (isYarn) {
+    return "yarn" /* yarn */;
+  }
+  const isNpm = projectFileExists("package-lock.json");
+  if (isNpm) {
+    return "npm" /* npm */;
+  }
+  const isPnpm = projectFileExists("pnpm-lock.yaml");
+  if (isPnpm) {
+    return "pnpm" /* pnpm */;
+  }
+  const isDeno = projectFileExists("deps.ts");
+  if (isDeno) {
+    return "deno" /* deno */;
+  }
+  return null;
+};
+var getPackageJsonScripts = () => {
+  try {
+    const packageJsonPath = import_path.default.join(process.cwd(), "package.json");
+    const packageJson = import_fs.default.readFileSync(packageJsonPath, "utf8");
+    const packageJsonScripts = JSON.parse(packageJson).scripts;
+    return packageJsonScripts;
+  } catch (e) {
+    return null;
+  }
+};
+var program = () => {
+  const args = process.argv.slice(2);
+  const processName = args[0] === "create" ? "pnpm" : detectProjectEnvironment();
+  if (!processName) {
+    console.warn("No task runner detected");
+    return;
+  }
+  const packageJsonScripts = getPackageJsonScripts();
+  const script = packageJsonScripts?.[args[0]];
+  const childArgs = script ? ["run", ...args] : args;
+  const childProcess = (0, import_child_process.spawn)(processName, childArgs, {
+    stdio: [process.stdin, process.stdout, process.stderr]
+  });
+  childProcess.on("exit", function() {
+    process.exit();
+  });
+};
+program();
