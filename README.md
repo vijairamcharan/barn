@@ -22,6 +22,14 @@ Supported package managers:
 - yarn
 - npm
 
+## Installation
+
+Clone this repo, and run
+
+```
+yarn publish:local
+```
+
 ## Usage
 
 ### Create new projects
