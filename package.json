@@ -1,8 +1,11 @@
 {
-  "name": "pm-task-runner",
-  "version": "1.0.0",
+  "name": "@vr/barn",
+  "version": "0.9.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.ts",
+  "bin": {
+    "barn": "./bin/barn"
+  },
   "scripts": {
     "start": "npx tsx src/index.ts",
     "build": "npx esbuild src/index.ts --outfile=bin/barn --bundle --platform=node",
