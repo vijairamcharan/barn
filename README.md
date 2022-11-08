@@ -1,10 +1,12 @@
 # Barn
 
-Barn is like yarn, but with a b.
+**Barn is like yarn, but with a b.**
+
+Status: works on my machine.
 
 Barn will figure out what package manager is being used in the current project, and defer execution to the right package manager.
 
-This way you won't have to remember or find out which project uses which project manager.
+This way you won't have to remember what package manager is being used in the current project you are working in.
 
 Instead of running `npm install nanoid` in an npm managed repository, or `yarn add nanoid` in a yarn managed repository, or `pnpm add nanoid` in an pnpm managed repository.
 
@@ -49,9 +51,9 @@ barn build
 Examples:
 
 ```
-barn init
+barn add nanoid
 ```
 
 ```
-barn init
+barn remove nanoid
 ```
