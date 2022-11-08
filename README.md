@@ -12,7 +12,7 @@ Instead of running `npm install nanoid` in an npm managed repository, or `yarn a
 
 Everywhere, simply run:
 
-```
+```bash
 barn add nanoid
 ```
 
@@ -26,7 +26,7 @@ Supported package managers:
 
 Clone this repo, and run
 
-```
+```bash
 yarn publish:local
 ```
 
@@ -36,7 +36,7 @@ yarn publish:local
 
 Example:
 
-```
+```bash
 barn create next-app
 ```
 
@@ -46,11 +46,11 @@ Note: for now defaults to pnpm. Configuration option coming soon.
 
 Examples:
 
-```
+```bash
 barn dev
 ```
 
-```
+```bash
 barn build
 ```
 
@@ -58,10 +58,10 @@ barn build
 
 Examples:
 
-```
+```bash
 barn add nanoid
 ```
 
-```
+```bash
 barn remove nanoid
 ```
