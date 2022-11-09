@@ -4,8 +4,10 @@
 __metadata:
   version: 6
 
-"pm-task-runner@workspace:.":
+"@vijairamcharan/barn@workspace:.":
   version: 0.0.0-use.local
-  resolution: "pm-task-runner@workspace:."
+  resolution: "@vijairamcharan/barn@workspace:."
+  bin:
+    barn: ./bin/barn
   languageName: unknown
   linkType: soft

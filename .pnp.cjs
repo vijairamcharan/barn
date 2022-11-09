@@ -12,14 +12,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     ],\
     "dependencyTreeRoots": [\
       {\
-        "name": "pm-task-runner",\
+        "name": "@vijairamcharan/barn",\
         "reference": "workspace:."\
       }\
     ],\
     "enableTopLevelFallback": true,\
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
-      ["pm-task-runner", ["workspace:."]]\
+      ["@vijairamcharan/barn", ["workspace:."]]\
     ],\
     "fallbackPool": [\
     ],\
@@ -32,11 +32,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
-      ["pm-task-runner", [\
+      ["@vijairamcharan/barn", [\
         ["workspace:.", {\
           "packageLocation": "./",\
           "packageDependencies": [\
-            ["pm-task-runner", "workspace:."]\
+            ["@vijairamcharan/barn", "workspace:."]\
           ],\
           "linkType": "SOFT"\
         }]\
