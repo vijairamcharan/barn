@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npx tsx src/index.ts",
     "build": "npx esbuild src/index.ts --outfile=bin/barn --bundle --platform=node",
-    "publish:local": "cp bin/barn /usr/local/bin/barn"
+    "publish:local": "cp bin/barn /usr/local/bin/barn",
+    "publish": "npm publish --access public"
   },
   "keywords": [],
   "author": "Vijai Ramcharan",
