@@ -24,10 +24,8 @@ Supported package managers:
 
 ## Installation
 
-Clone this repo, and run
-
 ```bash
-yarn publish:local
+npm install -g @vijairamcharan/barn
 ```
 
 ## Usage
